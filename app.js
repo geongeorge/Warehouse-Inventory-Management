@@ -33,10 +33,19 @@ app.set('view engine', 'ejs');
 
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/', function (req, res) {
-
   res.render('index', {title : "My First node page"})
 })
 
-app.listen("3000", () => {
-    console.log("Server started at port 3000")
+app.get('/login', function (req, res) {
+  res.render('login', {title : "Login"})
+})
+app.post('/login', function (req, res) {
+  console.log(req.body)
+  res.render('login', {title: "Failed! Try again", failed: true});
+})
+
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log("Server started at port "+port)
 })
