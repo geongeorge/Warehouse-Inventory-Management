@@ -22,7 +22,7 @@
         <nav class="navbar" role="navigation" aria-label="main navigation">
             <div class="container">
                 <div class="navbar-brand">
-                  <a class="navbar-item" href="https://bulma.io">
+                  <a class="navbar-item" href="/">
                     Node App
                   </a>
               
@@ -40,11 +40,42 @@
                     </a>
      
                   </div>
+
+                  </div>
+                  
               
                   <div class="navbar-end">
-                    <div class="navbar-item">
-                      <a>Login</a>
-                    </div>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <% if(locals.user){ %>
+                          <a class="navbar-link">
+                              <%= user.username %>
+                            </a>
+                    
+                            <div class="navbar-dropdown">
+                              <a class="navbar-item">
+                                Orders
+                              </a>
+                              <hr class="navbar-divider">
+                              <a class="navbar-item">
+                                Sign out
+                              </a>
+                        <% }else { %>
+                          <a class="navbar-link">
+                              Login / Register
+                            </a>
+                    
+                            <div class="navbar-dropdown">
+                              <a class="navbar-item" href="/login">
+                                Login
+                              </a>
+                              <hr class="navbar-divider">
+                              <a class="navbar-item">
+                                Register
+                              </a>
+                        <% } %>
+                        
+                        </div>
+                      </div>
                   </div>
                 </div>
             </div>
