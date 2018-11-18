@@ -49,7 +49,9 @@ app.set('view engine', 'ejs');
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/', function (req, res) {
   res.locals.user = req.session.user;
-  res.render('index', {title : "My First node page"})
+  res.render('index', {
+    title : "Shop"
+  })
 })
 
 app.get('/login', function (req, res) {

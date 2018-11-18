@@ -1,0 +1,48 @@
+<% 
+var isdisabled="disabled";
+var buyString = "Login to Buy"
+if(locals.user) {
+    isdisabled="";
+    buyString = "";
+}
+%>
+<div class="container">
+
+    <div class="columns">
+        <div class="column is-one-quarter">
+            <div class="prod">
+                    <div class="card">
+                            <div class="card-image">
+                              <figure class="image is-4by3">
+                                <img src="http://www.todayifoundout.com/wp-content/uploads/2015/01/soap.jpg" alt="Placeholder image">
+                              </figure>
+                            </div>
+                            <div class="card-content">         
+                              <div class="content">
+                                <a href="#" class="button is-block is-success" <%=isdisabled %> >Buy Now</a>
+                                <br><code>
+                                <% if(!locals.user) { %>
+                                <%=buyString %>
+                                <% } else{ %>
+                                2 Left in stock
+                                <% } %>
+                                </code>
+                              </div>
+                            </div>
+                     </div>
+            </div>
+        </div>
+        <div class="column is-one-quarter">
+            <div class="prod">
+
+            </div>
+        </div>
+        <div class="column is-one-quarter">
+            <div class="prod">
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
