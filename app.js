@@ -8,7 +8,7 @@ app.use(session({secret: 'ssshhhhh!'}));
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 var pwHash = (pwd) => {
   return bcrypt.hashSync(pwd, 10);
