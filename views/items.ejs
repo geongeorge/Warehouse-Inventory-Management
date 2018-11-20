@@ -9,7 +9,7 @@ if(locals.user) {
 %>
 <h3 class="subtitle">products/<%-product.id %></h3>
 <br>
-<div class="columns">
+<div class="columns" id="app">
     <div class="column is-half">
         <figure class="image is-square">
                 <img src="<%-product.picture %>">
@@ -21,14 +21,54 @@ if(locals.user) {
                 <%-product.descr %>
             </p>
             <br>
-            <a href="#" class="button is-large is-success" <%=isdisabled %> ><%-buyString %></a>
+            <form method="post" action="/buy">
+            <input type="hidden" name="product" value="<%-product.id %>">
+            <div class="field has-addons">
+                    <div class="control">
+                            <a class="button" @click="qty<=1? 1 : --qty">
+                              -
+                            </a>
+                          </div>
+                    <div class="control">
+                      <input class="input" name="qty" type="text" style="width: 100px;" v-model="qty" @keyup="changed">
+                    </div>
+                    <div class="control">
+                      <a class="button" @click="qty>=max? max : ++qty">
+                        +
+                      </a>
+                    </div>
+                  </div>
+
+            <button class="button is-large is-success" <%=isdisabled %> ><%-buyString %></button>
+            <h2 class="subtitle is-5 has-text-grey-light"><%=product.stock %> Left in stock</h2>
+        </form>
             <br>
-            <h2 class="subtitle is-5 has-text-grey-light">
-            <%=product.stock %> Left in stock</h2>
+            
+            
             <hr>
             
             
     </div>
 </div>
-    
+
+<script src="<%=baseUrl %>/js/vue.js"></script>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            qty : 1,
+            max : <%-product.stock %>
+        },
+        methods: {
+            changed() {
+                if(isNaN(this.qty) || this.qty<=0) {
+                    this.qty = 1
+                }
+                if(this.qty>this.max) {
+                    this.qty = this.max
+                }
+            }
+        }
+    })
+</script>
 <%- include('partials/foot') %>

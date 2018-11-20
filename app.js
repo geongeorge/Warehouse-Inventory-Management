@@ -110,6 +110,39 @@ app.get('/item/:id', function (req, res) {
   });
 
 })
+//buy
+app.post('/buy', function(req, res) {
+  res.send({...req.body, user:{...req.session.user}})
+  let account = req.session.user
+  let order = req.body
+  connection.query(`insert into orders(pid,uid,qty) values("${order.product}","${account.id}",${order.qty})`, function(err, rows, fields) {
+    if (!err) {
+      connection.query(`UPDATE products set stock = stock - ${order.qty} where id=${order.product}`, function (error, results, fieldss) {
+        if(!error)
+        console.log('Successfully purchased');
+      });
+    }else {
+      console.log('error in purchase');
+    }
+  });
+
+})
+// customer orders page
+app.get('/orders', function(req, res){
+  if(req.session.user) {
+    res.locals.user = req.session.user
+    connection.query(`select * from orders,products where uid = ${req.session.user.id} and orders.pid=products.id`, function(err, results, fields) {
+      if(!err) {
+        console.log(results)
+        res.render("orders", {
+          orders: results
+        })
+      }
+    })
+  } else {
+    res.redirect('/404')
+  }
+})
 
 //register a user manually
 app.get('/secretreg', function (req, res) {

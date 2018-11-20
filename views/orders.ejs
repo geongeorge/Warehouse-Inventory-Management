@@ -1,0 +1,57 @@
+<%- include('partials/head', {'title': "Orders"}) %>
+
+<% 
+    var myorders = orders.filter((item)=>{
+        return item.status == "ordered"
+    })
+
+    var delivered = orders.filter((item)=>{
+        return item.status == "delivered"
+    })
+%>
+
+
+<h2 class="title is-2">Orders</h2>
+
+<% myorders.forEach((item,index)=> { %>
+
+    <div class="box">
+            <div class="columns">
+                <div class="column is-1">
+                    <figure class="image is-square">
+                        <img src="<%-item.picture %>">
+                    </figure>
+                </div>
+                <div class="column">
+                        <h3 class="title is-3">#<%-item.id %> <%-item.name %> x<%-item.qty %></h3> 
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, consequatur!
+                </div>
+                <div class="column is-4">
+                    <button class="button is-primary is-large is-fullwidth">Order Received</button>
+                </div>
+            </div>
+    </div>
+
+<% }) %>
+
+
+<h2 class="title is-2">Delivered</h2>
+
+<% delivered.forEach((item,index)=> { %>
+
+    <div class="box">
+            <div class="columns">
+                <div class="column is-1">
+                    <figure class="image is-square">
+                        <img src="<%-item.picture %>">
+                    </figure>
+                </div>
+                <div class="column">
+                        <h3 class="subtitle is-3">#<%-item.id %> <%-item.name %> x<%-item.qty %></h3> Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, consequatur!
+                </div>
+            </div>
+    </div>
+
+<% }) %>
+
+<%- include('partials/foot') %>
