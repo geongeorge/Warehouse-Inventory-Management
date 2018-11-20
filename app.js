@@ -5,6 +5,8 @@ var app = express()
 
 app.use(session({secret: 'ssshhhhh!'}));
 
+app.locals.baseUrl = "http://localhost:3000"
+
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -46,12 +48,18 @@ connection.connect(function(err) {
 //set view engine to ejs
 app.set('view engine', 'ejs');
 
-// respond with "hello world" when a GET request is made to the homepage
+// homepage
 app.get('/', function (req, res) {
   res.locals.user = req.session.user;
-  res.render('index', {
-    title : "Shop"
-  })
+
+  connection.query('SELECT * from products', function (error, results, fields) {
+    if (error) throw error;
+    res.render('index', {
+      title : "Shop",
+      products: results
+    })
+  });
+
 })
 
 app.get('/login', function (req, res) {
@@ -83,6 +91,26 @@ app.post('/login', function (req, res) {
   
 })
 
+// Item page
+app.get('/item/:id', function (req, res) {
+  res.locals.user = req.session.user
+
+  connection.query(`SELECT * from products where id=${req.params.id}`, function (error, results, fields) {
+    if (error) throw error;
+    // res.send(results)
+
+    if(results.length > 0) {
+      res.render('items', {
+        product: results
+      })
+    } else {
+      res.render('404')
+    }
+    
+  });
+
+})
+
 //register a user manually
 app.get('/secretreg', function (req, res) {
   let pwwd = pwHash('password')
@@ -96,8 +124,15 @@ app.get('/secretreg', function (req, res) {
   });
 })
 
+//log out
+app.get('/logout',(req,res)=> {
+  req.session.destroy();
+  res.redirect('/');
+})
+
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log("Server started at port "+port)
+    console.log("http://localhost:"+port)
 })

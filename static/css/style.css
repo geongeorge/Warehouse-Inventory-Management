@@ -1,5 +1,12 @@
 .prod  {
-    border: 1px rgb(46, 46, 46) solid;
-    height: 300px;
+    min-height: 350px;
     text-align: center;
+}
+.prod:hover  {
+    border: 1px rgb(46, 46, 46) solid;
+    transform: scale(1.05);
+    transition: transform ease-in 150ms;
+}
+.prod .card-content {
+    height: 150px;
 }

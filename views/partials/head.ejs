@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title><%=title %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="./css/bulma.min.css" />
-    <link rel="stylesheet" href="./css/animate.css" />
-    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="<%=baseUrl %>/css/bulma.min.css" />
+    <link rel="stylesheet" href="<%=baseUrl %>/css/animate.css" />
+    <link rel="stylesheet" href="<%=baseUrl %>/css/style.css" />
     <style>
         .mycontainer {
             margin-top: 50px;
@@ -24,7 +24,7 @@
             <div class="container">
                 <div class="navbar-brand">
                   <a class="navbar-item" href="/">
-                    Node App
+                    Shop
                   </a>
               
                   <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -57,7 +57,7 @@
                                 Orders
                               </a>
                               <hr class="navbar-divider">
-                              <a class="navbar-item">
+                              <a href="<%=baseUrl %>/logout" class="navbar-item">
                                 Sign out
                               </a>
                         <% }else { %>
@@ -66,7 +66,7 @@
                             </a>
                     
                             <div class="navbar-dropdown">
-                              <a class="navbar-item" href="/login">
+                              <a class="navbar-item" href="<%=baseUrl %>/login">
                                 Login
                               </a>
                               <hr class="navbar-divider">

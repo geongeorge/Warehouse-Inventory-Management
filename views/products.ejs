@@ -7,41 +7,38 @@ if(locals.user) {
 }
 %>
 <div class="container">
-
     <div class="columns">
+
+        <% 
+        products.forEach((item,index) => { 
+        %>
         <div class="column is-one-quarter">
+        <a href="/item/<%=item.id %>">
             <div class="prod">
                     <div class="card">
                             <div class="card-image">
                               <figure class="image is-4by3">
-                                <img src="http://www.todayifoundout.com/wp-content/uploads/2015/01/soap.jpg" alt="Placeholder image">
+                                <img src="<%=item.picture %>" alt="Placeholder image">
                               </figure>
                             </div>
                             <div class="card-content">         
                               <div class="content">
-                                <a href="#" class="button is-block is-success" <%=isdisabled %> >Buy Now</a>
-                                <br><code>
+                                <h3 class="title"><%=item.name %></h3>
+                                <!-- <a href="#" class="button is-block is-success" <%=isdisabled %> >Buy Now</a> -->
+                                <code>
                                 <% if(!locals.user) { %>
                                 <%=buyString %>
                                 <% } else{ %>
-                                2 Left in stock
+                                <%=item.stock %> Left in stock
                                 <% } %>
                                 </code>
                               </div>
                             </div>
                      </div>
             </div>
+        </a>
         </div>
-        <div class="column is-one-quarter">
-            <div class="prod">
-
-            </div>
-        </div>
-        <div class="column is-one-quarter">
-            <div class="prod">
-
-            </div>
-        </div>
+        <%  }); %>
 
 
     </div>
