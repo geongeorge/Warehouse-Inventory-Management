@@ -10,10 +10,12 @@
     })
 %>
 
-
 <h2 class="title is-2">Orders</h2>
 
-<% myorders.forEach((item,index)=> { %>
+<% myorders.forEach((item,index)=> { 
+    myDate = new Date(item.date)
+
+    %>
 
     <div class="box">
             <div class="columns">
@@ -24,7 +26,12 @@
                 </div>
                 <div class="column">
                         <h3 class="title is-3">#<%-item.id %> <%-item.name %> x<%-item.qty %></h3> 
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, consequatur!
+                        Ordered on: <%-myDate.toString().split(" ").reduce((acc, newv, indx)=> {
+                            if(indx<=3)
+                            return acc+" "+newv
+                            else
+                            return acc
+                        })  %>
                 </div>
                 <div class="column is-4">
                     <button class="button is-primary is-large is-fullwidth">Order Received</button>
@@ -37,7 +44,9 @@
 
 <h2 class="title is-2">Delivered</h2>
 
-<% delivered.forEach((item,index)=> { %>
+<% delivered.forEach((item,index)=> { 
+    myDate = new Date(item.date)
+    %>
 
     <div class="box">
             <div class="columns">
@@ -47,7 +56,13 @@
                     </figure>
                 </div>
                 <div class="column">
-                        <h3 class="subtitle is-3">#<%-item.id %> <%-item.name %> x<%-item.qty %></h3> Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, consequatur!
+                        <h3 class="subtitle is-3">#<%-item.id %> <%-item.name %> x<%-item.qty %></h3> 
+                        Ordered on: <%-myDate.toString().split(" ").reduce((acc, newv, indx)=> {
+                            if(indx<=3)
+                            return acc+" "+newv
+                            else
+                            return acc
+                        })  %>
                 </div>
             </div>
     </div>
