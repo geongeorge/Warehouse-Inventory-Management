@@ -1,0 +1,80 @@
+<html>
+<head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title><%=title %></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="<%=baseUrl %>/css/bulma.min.css" />
+        <link rel="stylesheet" href="<%=baseUrl %>/css/animate.css" />
+        <link rel="stylesheet" href="<%=baseUrl %>/css/style.css" />
+<style>
+html,body {
+  /* font-family: 'Open Sans', serif; */
+  font-size: 14px;
+  font-weight: 300;
+}
+body {
+    background: #282C34;
+}
+.hero-body {
+    padding-top: 0;
+}
+.mycontainer {
+    margin-top: -20px;
+}
+.hero.is-success {
+  background:  #282C34;
+}
+.hero .nav, .hero.is-success .nav {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.box {
+  margin-top: 1rem;
+}
+input {
+  font-weight: 300;
+}
+p {
+  font-weight: 700;
+}
+p.subtitle {
+  padding-top: 1rem;
+}
+</style>
+</head>
+<body>
+<% 
+var animClass = ""
+if(typeof failed != 'undefined') 
+    animClass = "animated shake"
+%>
+<div class="container">
+<section class="hero is-success is-fullheight">
+    <div class="hero-body">
+        <div class="container is-fullhd has-text-centered">
+            <div class="column is-4 is-offset-4">
+                <h3 class="title has-text-light"><%=title %></h3>
+                <p class="subtitle has-text-light">Please login to proceed.</p>
+                <div class="box <%=animClass %>">
+                    <form action="/admin" method="post">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-large" name="uname" type="text" placeholder="Username" autofocus="">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-large" name="pwd" type="password" placeholder="Your Password">
+                            </div>
+                        </div>
+                        <button class="button is-block is-info is-large is-fullwidth">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+</body>

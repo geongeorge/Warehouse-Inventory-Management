@@ -25,7 +25,7 @@
                     </figure>
                 </div>
                 <div class="column">
-                        <h3 class="title is-3">#<%-item.id %> <%-item.name %> x<%-item.qty %></h3> 
+                        <h3 class="title is-3">#<%-item.oid %> <%-item.name %> x<%-item.qty %></h3> 
                         Ordered on: <%-myDate.toString().split(" ").reduce((acc, newv, indx)=> {
                             if(indx<=3)
                             return acc+" "+newv
@@ -34,12 +34,17 @@
                         })  %>
                 </div>
                 <div class="column is-4">
-                    <button class="button is-primary is-large is-fullwidth">Order Received</button>
+                    <a href="<%-baseUrl+'/orders/'+item.oid+'/confirm' %>" class="button is-warning is-large is-fullwidth">Order Received</a>
                 </div>
             </div>
     </div>
 
-<% }) %>
+<% })
+if (myorders.length <= 0) { %>
+    <h2 class="subtitle has-text-grey-light has-text-centered is-2">Nothing to show here</h2>
+<% } %>
+
+%>
 
 
 <h2 class="title is-2">Delivered</h2>
@@ -56,7 +61,7 @@
                     </figure>
                 </div>
                 <div class="column">
-                        <h3 class="subtitle is-3">#<%-item.id %> <%-item.name %> x<%-item.qty %></h3> 
+                        <h3 class="subtitle is-3">#<%-item.oid %> <%-item.name %> x<%-item.qty %></h3> 
                         Ordered on: <%-myDate.toString().split(" ").reduce((acc, newv, indx)=> {
                             if(indx<=3)
                             return acc+" "+newv
@@ -67,6 +72,9 @@
             </div>
     </div>
 
-<% }) %>
+    <% })
+    if (delivered.length <= 0) { %>
+        <h2 class="subtitle has-text-grey-light has-text-centered is-2">Nothing to show here</h2>
+    <% } %>
 
 <%- include('partials/foot') %>

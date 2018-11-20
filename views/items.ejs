@@ -7,7 +7,13 @@ if(locals.user) {
     buyString = "Buy Now";
 }
 %>
-<h3 class="subtitle">products/<%-product.id %></h3>
+
+<nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+          <li><a href="<%-baseUrl %>">Products</a></li>
+          <li class="is-active"><a href="<%-baseUrl %>/item/<%-product.id %>" aria-current="page"><%-product.name %></a></li>
+        </ul>
+</nav>
 <br>
 <div class="columns" id="app">
     <div class="column is-half">
@@ -39,7 +45,7 @@ if(locals.user) {
                     </div>
                   </div>
 
-            <button class="button is-large is-success" <%=isdisabled %> ><%-buyString %></button>
+            <button class="button is-large is-success" <%=isdisabled %> :disabled="max<=0" ><%-buyString %></button>
             <h2 class="subtitle is-5 has-text-grey-light"><%=product.stock %> Left in stock</h2>
         </form>
             <br>
