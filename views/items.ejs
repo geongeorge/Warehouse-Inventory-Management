@@ -1,7 +1,34 @@
-<%- include('partials/head', {'title': "Item"}) %>
-
-<h2 class="title is-2">Item</h2>
-
-item
+<%- include('partials/head', {'title': product.name}) %>
+<% 
+var isdisabled="disabled";
+var buyString = "Login to Buy"
+if(locals.user) {
+    isdisabled="";
+    buyString = "Buy Now";
+}
+%>
+<h3 class="subtitle">products/<%-product.id %></h3>
+<br>
+<div class="columns">
+    <div class="column is-half">
+        <figure class="image is-square">
+                <img src="<%-product.picture %>">
+        </figure>
+    </div>
+    <div class="column is-half">
+            <h2 class="title is-2"><%-product.name%></h2>
+            <p>
+                <%-product.descr %>
+            </p>
+            <br>
+            <a href="#" class="button is-large is-success" <%=isdisabled %> ><%-buyString %></a>
+            <br>
+            <h2 class="subtitle is-5 has-text-grey-light">
+            <%=product.stock %> Left in stock</h2>
+            <hr>
+            
+            
+    </div>
+</div>
     
 <%- include('partials/foot') %>

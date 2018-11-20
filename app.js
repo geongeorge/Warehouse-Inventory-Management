@@ -101,10 +101,10 @@ app.get('/item/:id', function (req, res) {
 
     if(results.length > 0) {
       res.render('items', {
-        product: results
+        product: results[0]
       })
     } else {
-      res.render('404')
+      res.redirect('/404')
     }
     
   });
@@ -129,7 +129,10 @@ app.get('/logout',(req,res)=> {
   req.session.destroy();
   res.redirect('/');
 })
-
+//log out
+app.get('/404',(req,res)=> {
+  res.render('404')
+})
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
