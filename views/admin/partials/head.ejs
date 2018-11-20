@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="<%=baseUrl %>/css/bulma.min.css" />
+    <link rel="stylesheet" href="<%=baseUrl %>/css/animate.css" />
+    <link rel="stylesheet" href="<%=baseUrl %>/css/adminstyle.css" />
+</head>
+<body>
+        <nav class="navbar is-success" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                  <a class="navbar-item" href="https://bulma.io">
+                    Admin
+                  </a>
+              
+                  <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                  </a>
+                </div>
+              
+                <div id="navbarBasicExample" class="navbar-menu">
+              
+                  <div class="navbar-end">
+                        <a href="<%-baseUrl%>/logout" class="navbar-item">
+                                Log Out
+                        </a>
+                  </div>
+                </div>
+        </nav>
+        <div class="columns">
+            <div class="column is-2 mycols">
+                    <%- include('sidebar',{'page': page}) %>
+            </div>
+            <div class="column">

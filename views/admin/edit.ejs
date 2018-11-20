@@ -1,0 +1,72 @@
+<%- include('partials/head',{page: "edit"}) %>
+
+<h2 class="title is-2">Edit </h2>
+
+<form action="<%-baseUrl %>/admin/edit/<%-product.id %>" method="post" style="max-width: 500px;" enctype="multipart/form-data">
+    <div class="field">
+        <label class="label">Name</label>
+        <div class="control">
+            <input class="input" name="name" type="text" placeholder="Product Name" value="<%-product.name %>">
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Description</label>
+        <div class="control">
+            <textarea class="textarea" name="descr" placeholder="Description" ><%-product.descr %></textarea>
+        </div>
+    </div>
+
+    <div class="field">
+            <label class="label">Price</label>
+            <div class="control">
+                <input class="input" name="price" type="number" placeholder="Price" value="<%-product.price %>">
+            </div>
+    </div>
+
+    <div class="field">
+            <label class="label">Quantity</label>
+            <div class="control">
+                <input class="input" name="stock" type="number" value="<%-product.stock %>" placeholder="Quantity">
+            </div>
+    </div>
+    <figure class="image is-96x96">
+            <img src="<%-baseUrl %>/uploads/<%-product.picture %>">
+        </figure>
+    <div class="file has-name">
+            <label class="file-label">
+              <input class="file-input" type="file" id="file" name="image">
+              <span class="file-cta">
+                <span class="file-icon">
+                  <i class="fas fa-upload"></i>
+                </span>
+                <span class="file-label">
+                  Choose a product image…
+                </span>
+              </span>
+              <span class="file-name" id="filename">
+                File name
+              </span>
+            </label>
+          </div>
+    <br>
+    <div class="field">
+            <div class="control">
+              <button class="button is-link">Submit</button>
+            </div>
+    </div>
+</form>
+<script>
+var file = document.getElementById("file");
+file.onchange = function(){
+    if(file.files.length > 0)
+    {
+
+      document.getElementById('filename').innerHTML = file.files[0].name;
+      console.log(file.files[0])
+
+    }
+}
+</script>
+
+<%- include('partials/foot') %>

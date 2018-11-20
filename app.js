@@ -1,9 +1,15 @@
 var express = require('express')
 var session = require('express-session')
 var mysql = require('mysql')
+const fileUpload = require('express-fileupload');
+
+const uniqueString = require('unique-string');
+
 var app = express()
 
 app.use(session({secret: 'ssshhhhh!'}));
+
+app.use(fileUpload());
 
 app.locals.baseUrl = "http://localhost:3000"
 
@@ -245,7 +251,7 @@ app.post('/admin', function (req, res) {
           id : rows[0].id,
           username : rows[0].username,
         };
-        res.redirect('/');
+        res.redirect('admin/dashboard');
       } else {
         res.render('admin/login', {title: "Failed! Try again", failed: true});
       }
@@ -253,8 +259,158 @@ app.post('/admin', function (req, res) {
     else
       throw err;
   });
+})
+//admin dashboard
+app.get("/admin/dashboard",function(req,res){
+  if(req.session.admin) {
+    res.locals.admin = req.session.admin
+    res.render("admin/dash")
+  } else {
+    res.redirect("/admin")
+  }
   
 })
+//view active orders
+app.get("/admin/orders",function(req,res){
+  if(req.session.admin) {
+    res.locals.admin = req.session.admin
+    connection.query(`select orders.id as oid,pid,uid,qty,status,date,name,picture,username from orders,products,customers where status="ordered" and orders.pid=products.id and orders.uid=customers.id`, function(err, rows, fields) {
+      if(!err){
+        res.render("admin/orders",{
+          results : rows,
+        })
+      }
+    });
+  } else {
+    res.redirect("/admin")
+  }
+})
+//view completed sales
+app.get("/admin/sales",function(req,res){
+  if(req.session.admin) {
+    res.locals.admin = req.session.admin
+    connection.query(`select orders.id as oid,pid,uid,qty,status,date,name,picture,username from orders,products,customers where status="delivered" and orders.pid=products.id and orders.uid=customers.id`, function(err, rows, fields) {
+      if(!err){
+        res.render("admin/sales",{
+          results : rows,
+        })
+      }
+    });
+  } else {
+    res.redirect("/admin")
+  }
+})
+
+//view all the products 
+app.get("/admin/manage", function(req,res){
+
+  if(req.session.admin) {
+    res.locals.admin = req.session.admin
+    connection.query('SELECT * from products', function (error, results, fields) {
+      if (error) throw error;
+      res.render('admin/manage', {
+        products: results
+      })
+    });
+  } else {
+    res.redirect("/admin")
+  }
+
+})
+
+//edit product stock (not at all safe!!!!)
+app.get("/stock/update/:id/:newval", function(req,res){
+    connection.query(`UPDATE products set stock = ${req.params.newval} where id=${req.params.id}`, function (error, results, fields) {
+      if (error) throw error;
+      res.send('{updated}')
+    });
+})
+
+//add new Product for admin
+app.get("/admin/new", function(req, res) {
+  if(req.session.admin) {
+    res.locals.admin = req.session.admin
+    res.render("admin/new")
+  } else {
+    res.redirect("/admin")
+  }
+})
+
+app.post('/admin/new', function(req, res) {
+  if (Object.keys(req.files).length == 0) {
+    return res.status(400).send('No files were uploaded.');
+  }
+
+  // The name of the input field
+  let imgFile = req.files.image;
+
+  let imgUnique = uniqueString()
+
+  let imgUrl = '/static/uploads/'+imgUnique+'.jpg';
+
+  let data =  req.body
+
+  // Use the mv() method to move to a place in server
+  imgFile.mv(__dirname + imgUrl, function(err) {
+    if (err)
+      return res.status(500).send(err);
+
+    // res.send('File uploaded!');
+
+    connection.query(`INSERT into products(name,descr,price,stock,picture) values('${data.name}','${data.descr}','${data.price}', '${data.stock}','${imgUnique}.jpg')`, function (error, results, fields) {
+      if (error) throw error;
+      res.redirect('/admin/manage')
+    });
+  });
+});
+
+//add new Product for admin
+app.get("/admin/edit/:id", function(req, res) {
+  if(req.session.admin) {
+    res.locals.admin = req.session.admin
+    connection.query('SELECT * from products where id='+req.params.id, function (error, results, fields) {
+      if (error) throw error;
+      res.render('admin/edit', {
+        product: results[0]
+      })
+    });
+  } else {
+    res.redirect("/admin")
+  }
+})
+//add new Product for admin not safe!!!
+app.post("/admin/edit/:id", function(req, res) {
+  let data =  req.body
+  if (Object.keys(req.files).length == 0) {
+    connection.query(`UPDATE products set name='${data.name}', descr = '${data.descr}', stock=${data.stock}, price = ${data.price} where id=${req.params.id}`, function (error, results, fields) {
+      if (error) throw error;
+      res.redirect("/admin/manage")
+    });
+  } else {
+
+    // The name of the input field
+    let imgFile = req.files.image;
+
+    let imgUnique = uniqueString()
+
+    let imgUrl = '/static/uploads/'+imgUnique+'.jpg';
+
+    
+
+    // Use the mv() method to move to a place in server
+    imgFile.mv(__dirname + imgUrl, function(err) {
+      if (err)
+        return res.status(500).send(err);
+
+        connection.query(`UPDATE products set name='${data.name}', descr = '${data.descr}', stock=${data.stock}, price = ${data.price}, picture='${imgUnique}.jpg' where id=${req.params.id}`,function (error, results, fields) {
+          if (error) throw error;
+          res.redirect("/admin/manage")
+        });
+    })
+  }
+})
+
+
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
