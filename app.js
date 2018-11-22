@@ -67,7 +67,7 @@ app.get('/', function (req, res) {
   });
 
 })
-
+//login
 app.get('/login', function (req, res) {
   res.render('login', {title : "Login"})
 })
